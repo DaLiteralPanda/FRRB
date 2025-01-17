@@ -27,6 +27,24 @@ def reverse(sec):
     gpio.output(24, True)
     time.sleep(sec)
 
+# Turn left
+def left(sec):
+    print("Turning left")
+    gpio.output(17, False)  # Stop or reverse left motor
+    gpio.output(22, False)
+    gpio.output(23, True)   # Move right motor forward
+    gpio.output(24, False)
+    time.sleep(sec)
+
+# Turn right
+def right(sec):
+    print("Turning right")
+    gpio.output(17, True)   # Move left motor forward
+    gpio.output(22, False)
+    gpio.output(23, False)  # Stop or reverse right motor
+    gpio.output(24, False)
+    time.sleep(sec)
+
 # Cleanup GPIO
 def cleanup():
     gpio.cleanup()
@@ -36,8 +54,10 @@ def cleanup():
 try:
     init()
     print("Starting motor test")
-    forward(4)
-    time.sleep(1)
-    reverse(4)
+    forward(2)  # Move forward for 2 seconds
+    left(1)     # Turn left for 1 second
+    forward(2)  # Move forward for 2 seconds
+    right(1)    # Turn right for 1 second
+    reverse(2)  # Move backward for 2 seconds
 finally:
     cleanup()
